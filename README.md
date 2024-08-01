@@ -31,6 +31,10 @@ Purpose: Entry point of the application. It initializes the QuickFIX engine and 
 
 Purpose: Contains utility functions for working with FIX messages, such as creating and parsing messages.
 
+### quickfix_trading_app/fix_config.py:
+
+Purpose: Contains utility functions to make FIX xml information available to other components.
+
 ### tests/__init__.py:
 
 Purpose: Marks the directory as a Python package.
@@ -42,3 +46,60 @@ Purpose: Contains unit tests for the respective modules using a testing framewor
 ### setup.py:
 
 Purpose: Script for setting up the project, making it installable as a package.
+
+### requirements.txt:
+
+Purpose: List the required site-packages.
+- quickfix: The QuickFIX engine for Python.
+- pytest: For testing.
+- python-dotenv (optional): For managing environment variables, useful if you want to keep configuration settings outside your code.
+
+Use python -m pip install -r requirements.txt to install them in your virtual environment.
+
+
+## Overview of FIX Protocol Workflow
+The FIX protocol facilitates communication between trading systems by defining a standardized format for messages and interactions. The basic workflow includes:
+- Session Initialization: Establishing and maintaining connections between trading parties.
+- Message Exchange: Sending and receiving various types of messages (e.g., orders, executions).
+- Session Management: Handling session-related activities such as logon, heartbeat, and logout.
+- Message Handling: Processing incoming and outgoing FIX messages.
+
+### Example Methods in FixApplication
+Let's assume you have the following typical methods in your FixApplication class:
+
+onCreate(sessionID): Called when a new session is created.
+onLogon(sessionID): Called when a session is successfully logged on.
+onLogout(sessionID): Called when a session logs out.
+toAdmin(message, sessionID): Used to modify outbound administrative messages.
+fromAdmin(message, sessionID): Used to modify inbound administrative messages.
+toApp(message, sessionID): Used to modify outbound application messages.
+fromApp(message, sessionID): Used to process inbound application messages.
+
+Admin Message Types:
+   Heartbeat <0>
+   Test Request <1>
+   Resend Request <2>
+   Reject <3>
+   Sequence Reset <4>
+   Logout <5>
+   Logon <A>
+   XML Message <n>
+
+### Detailed Explanation of Workflow
+1. Session Initialization
+When a FIX session is initialized, the FixApplication class manages session creation and setup. The onCreate method is called when a new session is created.
+2. Session Logon
+When a session successfully logs on, the onLogon method is triggered. This indicates that the FIX connection has been established and authenticated.
+3. Session Logout
+When a session logs out, the onLogout method is called. This is useful for handling cleanup operations when a FIX session ends.
+4. Message Handling
+4.1 Outbound Administrative Messages
+The toAdmin method is used to modify outbound administrative messages before they are sent.
+4.2 Inbound Administrative Messages
+The fromAdmin method is used to process inbound administrative messages received from the other party.
+4.3 Outbound Application Messages
+The toApp method is used to modify outbound application messages before they are sent.
+4.4 Inbound Application Messages
+The fromApp method is used to process inbound application messages received from the other party.
+
+In QuickFIX, message handling is done by overriding the onMessage method in your FixApplication class. The onMessage method is invoked when a message of a specific type is received. You define different onMessage methods for each message type you want to handle.

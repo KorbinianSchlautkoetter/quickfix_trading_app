@@ -7,4 +7,15 @@ setup(
     install_requires=[
         "quickfix",
     ],
+    extras_require={
+        "dev": [
+            "pytest",
+            "python-dotenv",
+        ]
+    },
+    entry_points={
+        "console_scripts": [
+            "start-trading-app=quickfix_trading_app.main:main",
+        ],
+    },
 )

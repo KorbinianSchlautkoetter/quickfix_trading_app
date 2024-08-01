@@ -1,3 +1,3 @@
-LOG_DIR = "logs/"
-CLIENT_CFG = "config/client.cfg"
-SERVER_CFG = "config/server.cfg"
+LOG_DIR = "appCode/logs/"
+CLIENT_CFG = "appCode/config/client.cfg"
+SERVER_CFG = "appCode/config/server.cfg"
